@@ -3,10 +3,6 @@ import pickle
 import pandas as pd
 
 
-# =========================================================
-# PAGE CONFIGURATION
-# =========================================================
-
 st.set_page_config(
     page_title="IPL Win Predictor",
     page_icon="🏏",
@@ -14,16 +10,10 @@ st.set_page_config(
 )
 
 
-# =========================================================
-# LOAD MODEL
-# =========================================================
 
 pipe = pickle.load(open("pipe.pkl", "rb"))
 
 
-# =========================================================
-# CUSTOM CSS
-# =========================================================
 
 st.markdown("""
 <style>
@@ -103,9 +93,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# =========================================================
-# TITLE
-# =========================================================
 
 st.markdown(
     '<div class="main-title"> IPL Win Predictor</div>',
@@ -120,9 +107,7 @@ st.markdown(
 )
 
 
-# =========================================================
-# DATA
-# =========================================================
+
 
 teams = [
     "Sunrisers Hyderabad",
@@ -147,9 +132,6 @@ cities = [
 ]
 
 
-# =========================================================
-# MATCH INFORMATION
-# =========================================================
 
 st.markdown(
     '<div class="section-title"> Match Information</div>',
@@ -178,9 +160,6 @@ with col3:
     )
 
 
-# =========================================================
-# CURRENT MATCH SITUATION
-# =========================================================
 
 st.markdown(
     '<div class="section-title"> Current Match Situation</div>',
@@ -244,10 +223,7 @@ balls_left = 120 - total_balls_completed
 overs_display = f"{overs_completed}.{balls_in_over}"
 
 st.caption(f"Current overs: **{overs_display}**")
-# =========================================================
-# CALCULATED FEATURES
-# =========================================================
-# Runs remaining
+
 runs_left = target - current_score
 
 # Total balls completed
@@ -268,9 +244,7 @@ if balls_left > 0:
 else:
     rrr = 0
 
-# =========================================================
-# MATCH STATISTICS
-# =========================================================
+
 
 st.markdown(
     '<div class="section-title"> Match Statistics</div>',
@@ -303,9 +277,6 @@ with col4:
         f"{rrr:.2f}"
     )
 
-# =========================================================
-# PREDICTION BUTTON
-# =========================================================
 
 st.markdown("")
 
@@ -315,15 +286,10 @@ predict = st.button(
 )
 
 
-# =========================================================
-# PREDICTION
-# =========================================================
+
 
 if predict:
 
-    # -----------------------------------------------------
-    # VALIDATION
-    # -----------------------------------------------------
 
     if batting_team == bowling_team:
 
@@ -347,10 +313,6 @@ if predict:
 
     else:
 
-        # -------------------------------------------------
-        # MODEL INPUT
-        # -------------------------------------------------
-
         input_data = pd.DataFrame({
             "batting_team": [batting_team],
             "bowling_team": [bowling_team],
@@ -365,9 +327,6 @@ if predict:
         })
 
 
-        # -------------------------------------------------
-        # MODEL PREDICTION
-        # -------------------------------------------------
 
         prediction = pipe.predict_proba(input_data)
 
@@ -375,9 +334,6 @@ if predict:
         win_probability = prediction[0][1] * 100
 
 
-        # =================================================
-        # MATCH PREDICTION
-        # =================================================
 
         st.divider()
 
@@ -390,9 +346,6 @@ if predict:
         st.write("")
 
 
-        # =================================================
-        # WINNING PROBABILITY
-        # =================================================
 
         col1, col2 = st.columns(2)
 
@@ -427,9 +380,6 @@ if predict:
             )
 
 
-        # =================================================
-        # PREDICTED WINNER
-        # =================================================
 
         st.write("")
         st.subheader(" Model Prediction")
@@ -450,9 +400,7 @@ if predict:
             )
 
 
-        # =================================================
-        # CURRENT MATCH STATUS
-        # =================================================
+
 
         st.write("")
         st.subheader(" Current Match Status")
@@ -492,9 +440,7 @@ if predict:
             )
 
 
-        # =================================================
-        # RUN RATE INFORMATION
-        # =================================================
+
 
         st.write("")
         st.subheader(" Run Rate")
@@ -526,9 +472,6 @@ if predict:
             )
 
 
-        # =================================================
-        # MATCH SUMMARY
-        # =================================================
 
         st.write("")
         st.subheader(" Match Summary")
